@@ -3,13 +3,20 @@ import { Map, Printer, Home } from 'lucide-react';
 import RouteBuilder from './components/RouteBuilder';
 import RouteTable from './components/RouteTable';
 import LandingPage from './components/LandingPage';
+import Strippenkaart from './components/Strippenkaart';
 
 function App() {
   const [view, setView] = useState('landing'); // 'landing' | 'builder'
+  const [routeType, setRouteType] = useState('tulip'); // 'tulip' | 'strip'
   const [steps, setSteps] = useState([]);
 
+  const handleStart = (type) => {
+    setRouteType(type);
+    setView('builder');
+  };
+
   if (view === 'landing') {
-    return <LandingPage onStart={() => setView('builder')} />;
+    return <LandingPage onStart={handleStart} />;
   }
 
   return (
@@ -43,7 +50,7 @@ function App() {
       <main className="container mx-auto p-4 print:p-0">
 
         {/* Builder Interface */}
-        <RouteBuilder steps={steps} setSteps={setSteps} />
+        <RouteBuilder steps={steps} setSteps={setSteps} routeType={routeType} />
 
         {/* Print View (Always rendered but visible/styled for print) */}
         {steps.length > 0 && (
@@ -55,13 +62,21 @@ function App() {
 
             {/* We show the table on screen too for review */}
             <div className="print:block hidden">
-              <RouteTable instructions={steps} />
+              {routeType === 'strip' ? (
+                <Strippenkaart steps={steps} />
+              ) : (
+                <RouteTable instructions={steps} />
+              )}
             </div>
 
             {/* On screen preview of the table */}
             <div className="print:hidden mt-8">
-              <h3 className="text-xl font-bold mb-4">Voorbeeld Routeboek</h3>
-              <RouteTable instructions={steps} />
+              <h3 className="text-xl font-bold mb-4">Voorbeeld {routeType === 'strip' ? 'Strippenkaart' : 'Routeboek'}</h3>
+              {routeType === 'strip' ? (
+                <Strippenkaart steps={steps} />
+              ) : (
+                <RouteTable instructions={steps} />
+              )}
             </div>
           </div>
         )}

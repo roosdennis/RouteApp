@@ -41,13 +41,21 @@ const LandingPage = ({ onStart }) => {
                     </div>
                 </div>
 
-                {/* CTA Button */}
-                <div className="pt-8">
+                {/* CTA Buttons */}
+                <div className="pt-8 flex flex-col md:flex-row gap-4 justify-center">
                     <button
-                        onClick={onStart}
+                        onClick={() => onStart('tulip')}
                         className="group relative inline-flex items-center gap-3 bg-white text-green-800 px-8 py-4 rounded-full text-xl font-bold shadow-xl hover:bg-green-50 hover:scale-105 transition-all duration-300"
                     >
-                        Start Routeboek
+                        Bolletje-Pijltje
+                        <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    </button>
+
+                    <button
+                        onClick={() => onStart('strip')}
+                        className="group relative inline-flex items-center gap-3 bg-green-900 text-white px-8 py-4 rounded-full text-xl font-bold shadow-xl hover:bg-green-800 hover:scale-105 transition-all duration-300 border border-green-700"
+                    >
+                        Strippenkaart
                         <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                     </button>
                 </div>
