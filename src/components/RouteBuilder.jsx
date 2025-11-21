@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, ArrowLeft } from 'lucide-react';
+import { Plus, Trash2, ArrowLeft, ArrowRight, ArrowUp } from 'lucide-react';
 import TulipDiagram from './TulipDiagram';
 import InteractiveTulip from './InteractiveTulip';
 import Strippenkaart from './Strippenkaart';
 import HelicopterRoute from './HelicopterRoute';
+import OgenFace from './OgenFace';
+import OgenRoute from './OgenRoute';
 
-const RouteBuilder = ({ steps, setSteps, routeType = 'tulip', heliScale, setHeliScale }) => {
+const RouteBuilder = ({ steps, setSteps, routeType = 'tulip', heliScale, setHeliScale, ogenTheme, setOgenTheme }) => {
     const [phase, setPhase] = useState('SELECT_TYPE'); // SELECT_TYPE, SELECT_ACTION, CONFIRM
 
     // State for Tulip Mode
@@ -26,6 +28,9 @@ const RouteBuilder = ({ steps, setSteps, routeType = 'tulip', heliScale, setHeli
         degrees: 0,
         distance: 0
     });
+
+    // State for Ogen Mode
+    const [ogenInput, setOgenInput] = useState('straight');
 
     const intersectionTypes = [
         { id: 'cross', label: '4-Sprong' },
@@ -52,6 +57,13 @@ const RouteBuilder = ({ steps, setSteps, routeType = 'tulip', heliScale, setHeli
                 distance: parseFloat(heliInput.distance)
             }]);
             setHeliInput({ degrees: 0, distance: 0 });
+        } else if (routeType === 'ogen') {
+            setSteps([...steps, {
+                id: Date.now(),
+                type: 'ogen_entry',
+                direction: ogenInput
+            }]);
+            setOgenInput('straight');
         } else {
             setSteps([...steps, { ...newStep, id: Date.now() }]);
             setPhase('SELECT_TYPE');
@@ -76,6 +88,157 @@ const RouteBuilder = ({ steps, setSteps, routeType = 'tulip', heliScale, setHeli
         };
         return labels[action] || action;
     };
+
+    // --- OGEN MODE UI ---
+    if (routeType === 'ogen') {
+        const themes = [
+            { id: 'smiley', label: 'Smiley' },
+            { id: 'minecraft', label: 'Minecraft' },
+            { id: 'sinterklaas', label: 'Sinterklaas' },
+            { id: 'poes', label: 'Poes' },
+            { id: 'monster', label: 'Monster' },
+        ];
+
+        return (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Left Column: Input */}
+                <div className="lg:col-span-1 space-y-6">
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-yellow-100">
+                        <h2 className="text-xl font-bold text-yellow-800 mb-4 flex items-center gap-2">
+                            <Plus className="w-5 h-5" /> Nieuwe Stap
+                        </h2>
+
+                        <div className="space-y-6">
+                            {/* Theme Selector */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Kies Thema</label>
+                                <div className="flex flex-wrap gap-2">
+                                    {themes.map(theme => (
+                                        <button
+                                            key={theme.id}
+                                            onClick={() => setOgenTheme(theme.id)}
+                                            className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors border ${ogenTheme === theme.id
+                                                    ? 'bg-yellow-500 text-white border-yellow-600 shadow-md'
+                                                    : 'bg-white text-gray-600 border-gray-200 hover:bg-yellow-50'
+                                                }`}
+                                        >
+                                            {theme.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="border-t border-gray-200 my-4"></div>
+
+                            {/* Direction Buttons */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Richting</label>
+                                <div className="grid grid-cols-3 gap-2">
+                                    <button
+                                        onClick={() => setOgenInput('left')}
+                                        className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition ${ogenInput === 'left'
+                                                ? 'border-yellow-500 bg-yellow-50 text-yellow-800'
+                                                : 'border-gray-100 bg-white text-gray-500 hover:border-yellow-200'
+                                            }`}
+                                    >
+                                        <ArrowLeft className="w-8 h-8 mb-2" />
+                                        <span className="font-bold">Links</span>
+                                    </button>
+
+                                    <button
+                                        onClick={() => setOgenInput('straight')}
+                                        className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition ${ogenInput === 'straight'
+                                                ? 'border-yellow-500 bg-yellow-50 text-yellow-800'
+                                                : 'border-gray-100 bg-white text-gray-500 hover:border-yellow-200'
+                                            }`}
+                                    >
+                                        <ArrowUp className="w-8 h-8 mb-2" />
+                                        <span className="font-bold">Rechtdoor</span>
+                                    </button>
+
+                                    <button
+                                        onClick={() => setOgenInput('right')}
+                                        className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition ${ogenInput === 'right'
+                                                ? 'border-yellow-500 bg-yellow-50 text-yellow-800'
+                                                : 'border-gray-100 bg-white text-gray-500 hover:border-yellow-200'
+                                            }`}
+                                    >
+                                        <ArrowRight className="w-8 h-8 mb-2" />
+                                        <span className="font-bold">Rechts</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={handleAddStep}
+                                className="w-full bg-yellow-500 text-white py-3 rounded-lg font-bold hover:bg-yellow-600 transition shadow-md flex items-center justify-center gap-2"
+                            >
+                                <Plus className="w-5 h-5" /> Toevoegen aan Route
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Preview Box */}
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center">
+                        <h3 className="text-sm font-bold text-gray-500 uppercase mb-4">Voorbeeld</h3>
+                        <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 w-full flex justify-center">
+                            <div className="w-48 h-48 flex items-center justify-center">
+                                <OgenFace direction={ogenInput} theme={ogenTheme} size={150} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Column: List */}
+                <div className="lg:col-span-2">
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                        <h2 className="text-xl font-bold text-gray-800 mb-4">Route Stappen ({steps.length})</h2>
+                        {steps.length === 0 ? (
+                            <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                                Nog geen stappen toegevoegd.
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                {steps.map((step, index) => (
+                                    <div key={step.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100 hover:border-yellow-200 transition">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-8 h-8 bg-yellow-100 text-yellow-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                                {index + 1}
+                                            </div>
+                                            <div className="w-16 h-16 flex items-center justify-center bg-white rounded border border-gray-200 flex-shrink-0">
+                                                <OgenFace direction={step.direction} theme={ogenTheme} size={50} />
+                                            </div>
+                                            <div>
+                                                <span className="font-bold text-gray-700">
+                                                    {step.direction === 'left' && 'Linksaf'}
+                                                    {step.direction === 'right' && 'Rechtsaf'}
+                                                    {step.direction === 'straight' && 'Rechtdoor'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => handleRemoveStep(step.id)}
+                                            className="text-red-400 hover:text-red-600 p-2 hover:bg-red-50 rounded transition"
+                                        >
+                                            <Trash2 className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Live Preview of Full Route */}
+                        {steps.length > 0 && (
+                            <div className="mt-8 border-t pt-8">
+                                <h3 className="text-lg font-bold mb-4">Totaaloverzicht</h3>
+                                <OgenRoute steps={steps} theme={ogenTheme} />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // --- HELICOPTER MODE UI ---
     if (routeType === 'helicopter') {

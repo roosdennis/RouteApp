@@ -1,10 +1,10 @@
 import React from 'react';
-import { Map, ArrowRight, Compass } from 'lucide-react';
+import { Map, ArrowRight, Compass, Smile } from 'lucide-react';
 
 const LandingPage = ({ onStart }) => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-800 to-green-600 flex flex-col items-center justify-center text-white p-4">
-            <div className="max-w-2xl text-center space-y-8">
+            <div className="max-w-4xl text-center space-y-8">
 
                 {/* Icon / Logo */}
                 <div className="flex justify-center mb-8">
@@ -42,29 +42,37 @@ const LandingPage = ({ onStart }) => {
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="pt-8 flex flex-col md:flex-row gap-4 justify-center">
+                <div className="pt-8 flex flex-wrap gap-4 justify-center">
                     <button
                         onClick={() => onStart('tulip')}
-                        className="group relative inline-flex items-center gap-3 bg-white text-green-800 px-8 py-4 rounded-full text-xl font-bold shadow-xl hover:bg-green-50 hover:scale-105 transition-all duration-300"
+                        className="group relative inline-flex items-center gap-3 bg-white text-green-800 px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-green-50 hover:scale-105 transition-all duration-300"
                     >
                         Bolletje-Pijltje
-                        <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </button>
 
                     <button
                         onClick={() => onStart('strip')}
-                        className="group relative inline-flex items-center gap-3 bg-green-900 text-white px-8 py-4 rounded-full text-xl font-bold shadow-xl hover:bg-green-800 hover:scale-105 transition-all duration-300 border border-green-700"
+                        className="group relative inline-flex items-center gap-3 bg-green-900 text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-green-800 hover:scale-105 transition-all duration-300 border border-green-700"
                     >
                         Strippenkaart
-                        <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </button>
 
                     <button
                         onClick={() => onStart('helicopter')}
-                        className="group relative inline-flex items-center gap-3 bg-blue-900 text-white px-8 py-4 rounded-full text-xl font-bold shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-300 border border-blue-700"
+                        className="group relative inline-flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-300 border border-blue-700"
                     >
                         Helikopter
-                        <Compass className="w-6 h-6 group-hover:rotate-45 transition-transform" />
+                        <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform" />
+                    </button>
+
+                    <button
+                        onClick={() => onStart('ogen')}
+                        className="group relative inline-flex items-center gap-3 bg-yellow-500 text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-yellow-600 hover:scale-105 transition-all duration-300 border border-yellow-400"
+                    >
+                        Ogenroute
+                        <Smile className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                     </button>
                 </div>
 

@@ -5,12 +5,14 @@ import RouteTable from './components/RouteTable';
 import LandingPage from './components/LandingPage';
 import Strippenkaart from './components/Strippenkaart';
 import HelicopterRoute from './components/HelicopterRoute';
+import OgenRoute from './components/OgenRoute';
 
 function App() {
   const [view, setView] = useState('landing'); // 'landing' or 'builder'
-  const [routeType, setRouteType] = useState('tulip'); // 'tulip', 'strip', 'helicopter'
+  const [routeType, setRouteType] = useState('tulip'); // 'tulip', 'strip', 'helicopter', 'ogen'
   const [steps, setSteps] = useState([]);
   const [heliScale, setHeliScale] = useState(100); // Default scale for helicopter
+  const [ogenTheme, setOgenTheme] = useState('smiley'); // Default theme for ogen
 
   const handleStart = (type) => {
     setRouteType(type);
@@ -78,6 +80,8 @@ function App() {
                 routeType={routeType}
                 heliScale={heliScale}
                 setHeliScale={setHeliScale}
+                ogenTheme={ogenTheme}
+                setOgenTheme={setOgenTheme}
               />
             </div>
 
@@ -102,6 +106,10 @@ function App() {
 
               {routeType === 'helicopter' && (
                 <HelicopterRoute steps={steps} scale={heliScale} />
+              )}
+
+              {routeType === 'ogen' && (
+                <OgenRoute steps={steps} theme={ogenTheme} />
               )}
             </div>
           </div>
