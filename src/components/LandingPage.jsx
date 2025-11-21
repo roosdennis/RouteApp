@@ -58,6 +58,14 @@ const LandingPage = ({ onStart }) => {
                         Strippenkaart
                         <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                     </button>
+
+                    <button
+                        onClick={() => onStart('helicopter')}
+                        className="group relative inline-flex items-center gap-3 bg-blue-900 text-white px-8 py-4 rounded-full text-xl font-bold shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-300 border border-blue-700"
+                    >
+                        Helikopter
+                        <Compass className="w-6 h-6 group-hover:rotate-45 transition-transform" />
+                    </button>
                 </div>
 
                 {/* Footer */}

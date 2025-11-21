@@ -3,8 +3,9 @@ import { Plus, Trash2, ArrowLeft } from 'lucide-react';
 import TulipDiagram from './TulipDiagram';
 import InteractiveTulip from './InteractiveTulip';
 import Strippenkaart from './Strippenkaart';
+import HelicopterRoute from './HelicopterRoute';
 
-const RouteBuilder = ({ steps, setSteps, routeType = 'tulip' }) => {
+const RouteBuilder = ({ steps, setSteps, routeType = 'tulip', heliScale, setHeliScale }) => {
     const [phase, setPhase] = useState('SELECT_TYPE'); // SELECT_TYPE, SELECT_ACTION, CONFIRM
 
     // State for Tulip Mode
@@ -18,6 +19,12 @@ const RouteBuilder = ({ steps, setSteps, routeType = 'tulip' }) => {
     const [stripInput, setStripInput] = useState({
         left: 0,
         right: 0
+    });
+
+    // State for Helicopter Mode
+    const [heliInput, setHeliInput] = useState({
+        degrees: 0,
+        distance: 0
     });
 
     const intersectionTypes = [
@@ -36,8 +43,15 @@ const RouteBuilder = ({ steps, setSteps, routeType = 'tulip' }) => {
                 left: stripInput.left,
                 right: stripInput.right
             }]);
-            // Reset input
             setStripInput({ left: 0, right: 0 });
+        } else if (routeType === 'helicopter') {
+            setSteps([...steps, {
+                id: Date.now(),
+                type: 'helicopter_entry',
+                degrees: parseFloat(heliInput.degrees),
+                distance: parseFloat(heliInput.distance)
+            }]);
+            setHeliInput({ degrees: 0, distance: 0 });
         } else {
             setSteps([...steps, { ...newStep, id: Date.now() }]);
             setPhase('SELECT_TYPE');
@@ -62,6 +76,125 @@ const RouteBuilder = ({ steps, setSteps, routeType = 'tulip' }) => {
         };
         return labels[action] || action;
     };
+
+    // --- HELICOPTER MODE UI ---
+    if (routeType === 'helicopter') {
+        return (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Left Column: Input */}
+                <div className="lg:col-span-1 space-y-6">
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-blue-100">
+                        <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+                            <Plus className="w-5 h-5" /> Nieuwe Vector
+                        </h2>
+
+                        <div className="space-y-6">
+                            {/* Scale Input */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Schaal (1cm = ... meter)</label>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={heliScale || 100}
+                                    onChange={(e) => setHeliScale && setHeliScale(parseInt(e.target.value) || 100)}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+
+                            <div className="border-t border-gray-200 my-4"></div>
+
+                            {/* Degrees Input */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Graden (0-360)</label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="360"
+                                    value={heliInput.degrees}
+                                    onChange={(e) => setHeliInput({ ...heliInput, degrees: e.target.value })}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+
+                            {/* Distance Input */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Afstand (cm)</label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="0.5"
+                                    value={heliInput.distance}
+                                    onChange={(e) => setHeliInput({ ...heliInput, distance: e.target.value })}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+
+                            <button
+                                onClick={handleAddStep}
+                                className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md flex items-center justify-center gap-2"
+                            >
+                                <Plus className="w-5 h-5" /> Toevoegen aan Route
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Preview Box */}
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center">
+                        <h3 className="text-sm font-bold text-gray-500 uppercase mb-4">Voorbeeld</h3>
+                        <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 w-full flex justify-center">
+                            {/* Render preview of JUST this step */}
+                            <div className="w-64 h-64 overflow-hidden transform scale-75">
+                                <HelicopterRoute steps={[{ degrees: heliInput.degrees, distance: heliInput.distance }]} scale={heliScale} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Column: List */}
+                <div className="lg:col-span-2">
+                    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                        <h2 className="text-xl font-bold text-gray-800 mb-4">Route Stappen ({steps.length})</h2>
+                        {steps.length === 0 ? (
+                            <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                                Nog geen vectoren toegevoegd.
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                {steps.map((step, index) => (
+                                    <div key={step.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100 hover:border-blue-200 transition">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                                {index + 1}
+                                            </div>
+                                            <div>
+                                                <span className="font-bold text-gray-700">
+                                                    {step.degrees}° - {step.distance} cm
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => handleRemoveStep(step.id)}
+                                            className="text-red-400 hover:text-red-600 p-2 hover:bg-red-50 rounded transition"
+                                        >
+                                            <Trash2 className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Live Preview of Full Route */}
+                        {steps.length > 0 && (
+                            <div className="mt-8 border-t pt-8">
+                                <h3 className="text-lg font-bold mb-4">Totaaloverzicht</h3>
+                                <HelicopterRoute steps={steps} scale={heliScale} />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // --- STRIP MODE UI ---
     if (routeType === 'strip') {
