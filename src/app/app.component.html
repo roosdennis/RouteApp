@@ -13,17 +13,41 @@
                     </span>
                 </div>
 
-                <div *ngIf="view === 'builder'" class="flex items-center gap-4">
-                    <button (click)="setView('landing')"
-                        class="flex items-center gap-2 text-gray-500 hover:text-blue-600 transition px-3 py-2 rounded-md hover:bg-blue-50">
-                        <lucide-icon [img]="Home" class="w-5 h-5"></lucide-icon>
-                        <span class="hidden sm:inline">Home</span>
+                <div class="flex items-center gap-4">
+                    <div *ngIf="view === 'builder'" class="flex items-center gap-4">
+                        <button (click)="setView('landing')"
+                            class="flex items-center gap-2 text-gray-500 hover:text-blue-600 transition px-3 py-2 rounded-md hover:bg-blue-50">
+                            <lucide-icon [img]="Home" class="w-5 h-5"></lucide-icon>
+                            <span class="hidden sm:inline">Home</span>
+                        </button>
+                        <button (click)="handlePrint()"
+                            class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-md hover:shadow-lg">
+                            <lucide-icon [img]="Printer" class="w-5 h-5"></lucide-icon>
+                            <span>Afdrukken</span>
+                        </button>
+                    </div>
+
+                    <!-- Auth Button -->
+                    <button *ngIf="!authService.isLoggedIn()" (click)="setView('login')"
+                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition px-3 py-2 rounded-md hover:bg-blue-50">
+                        <lucide-icon [img]="LogIn" class="w-5 h-5"></lucide-icon>
+                        <span class="hidden sm:inline">Inloggen</span>
                     </button>
-                    <button (click)="handlePrint()"
-                        class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-md hover:shadow-lg">
-                        <lucide-icon [img]="Printer" class="w-5 h-5"></lucide-icon>
-                        <span>Afdrukken</span>
-                    </button>
+
+                    <div *ngIf="authService.isLoggedIn()" class="flex items-center gap-4">
+                        <button *ngIf="authService.isAdmin()" (click)="setView('admin')"
+                            class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition px-3 py-2 rounded-md hover:bg-blue-50">
+                            <lucide-icon [img]="User" class="w-5 h-5"></lucide-icon>
+                            <span class="hidden sm:inline">Admin</span>
+                        </button>
+                        <span class="text-sm font-medium text-gray-700">
+                            {{ (authService.currentUser$ | async)?.username }}
+                        </span>
+                        <button (click)="authService.logout()"
+                            class="text-sm text-red-600 hover:text-red-700 font-medium">
+                            Uitloggen
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,6 +58,12 @@
 
         <!-- Landing Page -->
         <app-landing-page *ngIf="view === 'landing'" (routeSelect)="handleStart($event)"></app-landing-page>
+
+        <!-- Login View -->
+        <app-login *ngIf="view === 'login'" (loginSuccess)="setView('landing')"></app-login>
+
+        <!-- Admin Dashboard -->
+        <app-admin-dashboard *ngIf="view === 'admin'"></app-admin-dashboard>
 
         <!-- Builder View -->
         <div *ngIf="view === 'builder'" class="space-y-8">
