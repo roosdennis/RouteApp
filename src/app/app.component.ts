@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Map, Printer, Home, LogIn, User } from 'lucide-angular';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
@@ -30,8 +30,8 @@ import { RouteType, AnyRouteStep } from './models/route.model';
     ],
     templateUrl: './app.component.html',
 })
-export class AppComponent {
-    view: 'landing' | 'builder' | 'login' | 'admin' = 'landing';
+export class AppComponent implements OnInit {
+    view: 'landing' | 'builder' | 'login' | 'admin' = 'login';
     routeType: RouteType = 'tulip';
     steps: AnyRouteStep[] = [];
     heliScale: number = 100;
@@ -46,13 +46,39 @@ export class AppComponent {
 
     constructor(public authService: AuthService) { }
 
+    ngOnInit() {
+        this.authService.currentUser$.subscribe(user => {
+            if (!user) {
+                this.view = 'login';
+            }
+        });
+    }
+
     handleStart(type: string) {
         this.routeType = type as RouteType;
         this.view = 'builder';
         this.steps = [];
     }
 
+    handleLoginSuccess() {
+        if (this.authService.isAdmin()) {
+            this.view = 'admin';
+        } else {
+            this.view = 'landing';
+        }
+    }
+
     setView(view: 'landing' | 'builder' | 'login' | 'admin') {
+        if (view !== 'login' && !this.authService.isLoggedIn()) {
+            this.view = 'login';
+            return;
+        }
+
+        if (view === 'admin' && !this.authService.isAdmin()) {
+            this.view = 'landing';
+            return;
+        }
+
         this.view = view;
     }
 

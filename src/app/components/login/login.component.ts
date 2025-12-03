@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { LucideAngularModule, LogIn } from 'lucide-angular';
+import { LucideAngularModule, LogIn, Map, User, Lock } from 'lucide-angular';
 
 @Component({
     selector: 'app-login',
@@ -19,6 +19,9 @@ export class LoginComponent {
     isLoading = false;
 
     readonly LogIn = LogIn;
+    readonly Map = Map;
+    readonly User = User;
+    readonly Lock = Lock;
 
     constructor(private authService: AuthService) { }
 
@@ -39,5 +42,9 @@ export class LoginComponent {
                 console.error(err);
             }
         });
+    }
+
+    onRegister() {
+        alert('Registratie functionaliteit komt binnenkort!');
     }
 }

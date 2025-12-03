@@ -1,78 +1,83 @@
-<div class="min-h-screen bg-gradient-to-br from-green-800 to-green-600 flex flex-col items-center justify-center text-white p-4">
-    <div class="max-w-4xl text-center space-y-8">
+<div class="min-h-screen relative overflow-hidden flex flex-col items-center justify-center text-white p-4">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+        <img src="assets/scouting-bg.png" alt="Scouting Background" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-br from-green-900/70 to-blue-900/70"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl text-center space-y-8">
 
         <!-- Icon / Logo -->
         <div class="flex justify-center mb-8">
-            <div class="bg-white/20 p-6 rounded-full backdrop-blur-sm">
+            <div class="bg-white/20 p-6 rounded-full backdrop-blur-md shadow-xl border border-white/10">
                 <lucide-icon [img]="Compass" class="w-24 h-24 text-white"></lucide-icon>
             </div>
         </div>
 
         <!-- Title -->
-        <h1 class="text-5xl md:text-7xl font-bold tracking-tight drop-shadow-lg">
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tight drop-shadow-2xl">
             ScoutRoute
         </h1>
 
         <!-- Subtitle -->
-        <p class="text-xl md:text-2xl text-green-100 font-light max-w-lg mx-auto leading-relaxed">
+        <p class="text-xl md:text-2xl text-green-50 font-light max-w-lg mx-auto leading-relaxed drop-shadow-md">
             Maak eenvoudig professionele
             <span class="font-bold text-white mx-2">Bolletje-Pijltje</span>
             routeboekjes voor je volgende tocht.
         </p>
 
         <!-- Features Grid (Small) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-green-100 mt-8 opacity-80">
-            <div class="flex flex-col items-center gap-2">
-                <div class="bg-white/10 p-2 rounded-full"><lucide-icon [img]="Map" class="w-5 h-5"></lucide-icon></div>
-                <span>Visuele Builder</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-green-50 mt-8">
+            <div
+                class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div class="bg-white/20 p-2 rounded-full"><lucide-icon [img]="Map" class="w-5 h-5"></lucide-icon></div>
+                <span class="font-medium">Visuele Builder</span>
             </div>
-            <div class="flex flex-col items-center gap-2">
-                <div class="bg-white/10 p-2 rounded-full"><lucide-icon [img]="ArrowRight" class="w-5 h-5"></lucide-icon></div>
-                <span>Direct Printen</span>
+            <div
+                class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div class="bg-white/20 p-2 rounded-full"><lucide-icon [img]="ArrowRight" class="w-5 h-5"></lucide-icon>
+                </div>
+                <span class="font-medium">Direct Printen</span>
             </div>
-            <div class="flex flex-col items-center gap-2">
-                <div class="bg-white/10 p-2 rounded-full"><lucide-icon [img]="Compass" class="w-5 h-5"></lucide-icon></div>
-                <span>Scouting Proof</span>
+            <div
+                class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div class="bg-white/20 p-2 rounded-full"><lucide-icon [img]="Compass" class="w-5 h-5"></lucide-icon>
+                </div>
+                <span class="font-medium">Scouting Proof</span>
             </div>
         </div>
 
         <!-- CTA Buttons -->
         <div class="pt-8 flex flex-wrap gap-4 justify-center">
-            <button
-                (click)="onStart('tulip')"
-                class="group relative inline-flex items-center gap-3 bg-white text-green-800 px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-green-50 hover:scale-105 transition-all duration-300"
-            >
+            <button (click)="onStart('tulip')"
+                class="group relative inline-flex items-center gap-3 bg-white text-green-900 px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-green-50 hover:scale-105 transition-all duration-300">
                 Bolletje-Pijltje
-                <lucide-icon [img]="ArrowRight" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></lucide-icon>
+                <lucide-icon [img]="ArrowRight"
+                    class="w-5 h-5 group-hover:translate-x-1 transition-transform"></lucide-icon>
             </button>
 
-            <button
-                (click)="onStart('strip')"
-                class="group relative inline-flex items-center gap-3 bg-green-900 text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-green-800 hover:scale-105 transition-all duration-300 border border-green-700"
-            >
+            <button (click)="onStart('strip')"
+                class="group relative inline-flex items-center gap-3 bg-green-800/80 backdrop-blur-sm text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 border border-green-600/50">
                 Strippenkaart
-                <lucide-icon [img]="ArrowRight" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></lucide-icon>
+                <lucide-icon [img]="ArrowRight"
+                    class="w-5 h-5 group-hover:translate-x-1 transition-transform"></lucide-icon>
             </button>
 
-            <button
-                (click)="onStart('helicopter')"
-                class="group relative inline-flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-300 border border-blue-700"
-            >
+            <button (click)="onStart('helicopter')"
+                class="group relative inline-flex items-center gap-3 bg-blue-900/80 backdrop-blur-sm text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-blue-800 hover:scale-105 transition-all duration-300 border border-blue-700/50">
                 Helikopter
                 <lucide-icon [img]="Compass" class="w-5 h-5 group-hover:rotate-45 transition-transform"></lucide-icon>
             </button>
 
-            <button
-                (click)="onStart('ogen')"
-                class="group relative inline-flex items-center gap-3 bg-yellow-500 text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-yellow-600 hover:scale-105 transition-all duration-300 border border-yellow-400"
-            >
+            <button (click)="onStart('ogen')"
+                class="group relative inline-flex items-center gap-3 bg-yellow-600/80 backdrop-blur-sm text-white px-6 py-4 rounded-full text-lg font-bold shadow-xl hover:bg-yellow-600 hover:scale-105 transition-all duration-300 border border-yellow-500/50">
                 Ogenroute
                 <lucide-icon [img]="Smile" class="w-5 h-5 group-hover:rotate-12 transition-transform"></lucide-icon>
             </button>
         </div>
 
         <!-- Footer -->
-        <div class="absolute bottom-4 left-0 right-0 text-center text-green-200/60 text-sm">
+        <div class="absolute bottom-4 left-0 right-0 text-center text-white/40 text-sm font-medium">
             &copy; {{ currentYear }} ScoutRoute Generator
         </div>
     </div>

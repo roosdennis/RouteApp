@@ -60,7 +60,7 @@
         <app-landing-page *ngIf="view === 'landing'" (routeSelect)="handleStart($event)"></app-landing-page>
 
         <!-- Login View -->
-        <app-login *ngIf="view === 'login'" (loginSuccess)="setView('landing')"></app-login>
+        <app-login *ngIf="view === 'login'" (loginSuccess)="handleLoginSuccess()"></app-login>
 
         <!-- Admin Dashboard -->
         <app-admin-dashboard *ngIf="view === 'admin'"></app-admin-dashboard>
