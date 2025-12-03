@@ -1,0 +1,89 @@
+<svg [attr.width]="size" [attr.height]="size" viewBox="-50 -70 100 140" class="overflow-visible">
+    <ng-container [ngSwitch]="theme">
+        <!-- Minecraft -->
+        <g *ngSwitchCase="'minecraft'">
+            <rect x="-40" y="-40" width="80" height="80" fill="#56B000" stroke="black" stroke-width="3" />
+            <rect x="-25" y="-15" width="16" height="16" fill="white" stroke="black" stroke-width="2" />
+            <rect [attr.x]="-25 + 4 + (pupilX > 0 ? 4 : pupilX < 0 ? -4 : 0)" y="-11" width="8" height="8"
+                fill="black" />
+
+            <rect x="9" y="-15" width="16" height="16" fill="white" stroke="black" stroke-width="2" />
+            <rect [attr.x]="9 + 4 + (pupilX > 0 ? 4 : pupilX < 0 ? -4 : 0)" y="-11" width="8" height="8" fill="black" />
+
+            <rect x="-10" y="15" width="20" height="10" fill="black" />
+        </g>
+
+        <!-- Sinterklaas -->
+        <g *ngSwitchCase="'sinterklaas'">
+            <path d="M -35 10 Q -35 45 0 45 Q 35 45 35 10" fill="white" stroke="black" stroke-width="2" />
+            <circle cx="0" cy="0" r="35" fill="#FFCC99" stroke="black" stroke-width="2" />
+            <path d="M -35 -20 L 0 -65 L 35 -20" fill="red" stroke="black" stroke-width="2" />
+            <line x1="0" y1="-65" x2="0" y2="-20" stroke="#FFD700" stroke-width="2" />
+            <line x1="-15" y1="-40" x2="15" y2="-40" stroke="#FFD700" stroke-width="2" />
+
+            <!-- Eyes -->
+            <g>
+                <circle cx="-15" cy="-5" r="6" fill="white" stroke="black" stroke-width="2" />
+                <circle [attr.cx]="-15 + pupilX" cy="-5" r="3" fill="black" />
+                <circle cx="15" cy="-5" r="6" fill="white" stroke="black" stroke-width="2" />
+                <circle [attr.cx]="15 + pupilX" cy="-5" r="3" fill="black" />
+            </g>
+
+            <path d="M -10 20 Q 0 30 10 20" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" />
+        </g>
+
+        <!-- Poes -->
+        <g *ngSwitchCase="'poes'">
+            <path d="M -35 -25 L -45 -55 L -15 -35 Z" fill="#FFA500" stroke="black" stroke-width="2" />
+            <path d="M 35 -25 L 45 -55 L 15 -35 Z" fill="#FFA500" stroke="black" stroke-width="2" />
+            <circle cx="0" cy="0" r="40" fill="#FFA500" stroke="black" stroke-width="2" />
+
+            <!-- Eyes -->
+            <g>
+                <circle cx="-15" cy="-10" r="8" fill="white" stroke="black" stroke-width="2" />
+                <circle [attr.cx]="-15 + pupilX" cy="-10" r="3" fill="black" />
+                <circle cx="15" cy="-10" r="8" fill="white" stroke="black" stroke-width="2" />
+                <circle [attr.cx]="15 + pupilX" cy="-10" r="3" fill="black" />
+            </g>
+
+            <path d="M -5 5 L 5 5 L 0 12 Z" fill="pink" stroke="black" stroke-width="1" />
+            <path d="M 0 12 Q -10 20 -20 15" fill="none" stroke="black" stroke-width="2" />
+            <path d="M 0 12 Q 10 20 20 15" fill="none" stroke="black" stroke-width="2" />
+            <line x1="-20" y1="10" x2="-50" y2="5" stroke="black" stroke-width="1" />
+            <line x1="-20" y1="15" x2="-50" y2="15" stroke="black" stroke-width="1" />
+            <line x1="-20" y1="20" x2="-50" y2="25" stroke="black" stroke-width="1" />
+            <line x1="20" y1="10" x2="50" y2="5" stroke="black" stroke-width="1" />
+            <line x1="20" y1="15" x2="50" y2="15" stroke="black" stroke-width="1" />
+            <line x1="20" y1="20" x2="50" y2="25" stroke="black" stroke-width="1" />
+        </g>
+
+        <!-- Monster -->
+        <g *ngSwitchCase="'monster'">
+            <path d="M -20 -35 Q -30 -60 -50 -50" fill="#88CC00" stroke="black" stroke-width="2" />
+            <path d="M 20 -35 Q 30 -60 50 -50" fill="#88CC00" stroke="black" stroke-width="2" />
+            <path d="M -40 -30 Q -50 0 -30 40 Q 0 50 30 40 Q 50 0 40 -30 Q 0 -50 -40 -30" fill="#88CC00" stroke="black"
+                stroke-width="2" />
+
+            <circle cx="0" cy="-10" r="18" fill="white" stroke="black" stroke-width="2" />
+            <circle [attr.cx]="pupilX * 1.5" cy="-10" r="8" fill="black" />
+
+            <path d="M -20 20 L -15 30 L -10 20 L -5 30 L 0 20 L 5 30 L 10 20 L 15 30 L 20 20" fill="white"
+                stroke="black" stroke-width="1" />
+        </g>
+
+        <!-- Smiley (Default) -->
+        <g *ngSwitchDefault>
+            <circle cx="0" cy="0" r="40" fill="#FFD700" stroke="black" stroke-width="2" />
+
+            <!-- Eyes -->
+            <g>
+                <circle cx="-15" cy="-10" r="6" fill="white" stroke="black" stroke-width="2" />
+                <circle [attr.cx]="-15 + pupilX" cy="-10" r="3" fill="black" />
+                <circle cx="15" cy="-10" r="6" fill="white" stroke="black" stroke-width="2" />
+                <circle [attr.cx]="15 + pupilX" cy="-10" r="3" fill="black" />
+            </g>
+
+            <path d="M -20 15 Q 0 35 20 15" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" />
+        </g>
+    </ng-container>
+</svg>

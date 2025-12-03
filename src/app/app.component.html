@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-gray-100 font-sans text-gray-900">
+    <!-- Navigation Bar - Hidden in Print -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 print:hidden sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-2 cursor-pointer" (click)="setView('landing')">
+                    <div class="bg-blue-600 p-2 rounded-lg">
+                        <lucide-icon [img]="Map" class="w-6 h-6 text-white"></lucide-icon>
+                    </div>
+                    <span
+                        class="text-xl font-bold bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent">
+                        RouteMaker
+                    </span>
+                </div>
+
+                <div *ngIf="view === 'builder'" class="flex items-center gap-4">
+                    <button (click)="setView('landing')"
+                        class="flex items-center gap-2 text-gray-500 hover:text-blue-600 transition px-3 py-2 rounded-md hover:bg-blue-50">
+                        <lucide-icon [img]="Home" class="w-5 h-5"></lucide-icon>
+                        <span class="hidden sm:inline">Home</span>
+                    </button>
+                    <button (click)="handlePrint()"
+                        class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-md hover:shadow-lg">
+                        <lucide-icon [img]="Printer" class="w-5 h-5"></lucide-icon>
+                        <span>Afdrukken</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 print:p-0 print:max-w-none">
+
+        <!-- Landing Page -->
+        <app-landing-page *ngIf="view === 'landing'" (routeSelect)="handleStart($event)"></app-landing-page>
+
+        <!-- Builder View -->
+        <div *ngIf="view === 'builder'" class="space-y-8">
+            <!-- Editor Interface - Hidden in Print -->
+            <div class="print:hidden">
+                <app-route-builder [(steps)]="steps" [routeType]="routeType" [(heliScale)]="heliScale"
+                    [(ogenTheme)]="ogenTheme"></app-route-builder>
+            </div>
+
+            <!-- Print View -->
+            <div class="hidden print:block">
+                <!-- Header - Conditional for Helicopter -->
+                <div *ngIf="routeType !== 'helicopter'" class="mb-8 text-center border-b-2 border-black pb-4">
+                    <h1 class="text-4xl font-bold uppercase tracking-wider">Routeboek</h1>
+                    <p class="text-gray-500 mt-2">Gegenereerd met RouteMaker</p>
+                </div>
+
+                <!-- Content based on Route Type -->
+                <app-route-table *ngIf="routeType === 'tulip'" [steps]="steps"></app-route-table>
+
+                <app-strippenkaart *ngIf="routeType === 'strip'" [steps]="steps"></app-strippenkaart>
+
+                <app-helicopter-route *ngIf="routeType === 'helicopter'" [steps]="steps"
+                    [scale]="heliScale"></app-helicopter-route>
+
+                <app-ogen-route *ngIf="routeType === 'ogen'" [steps]="steps" [theme]="ogenTheme"></app-ogen-route>
+            </div>
+        </div>
+    </main>
+</div>

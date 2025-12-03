@@ -1,0 +1,20 @@
+<div class="relative inline-block cursor-pointer">
+    <!-- Base Diagram (No Arrow) -->
+    <app-tulip-diagram [type]="type" [showArrow]="false" [size]="size"></app-tulip-diagram>
+
+    <!-- Ghost Arrow Layer -->
+    <div *ngIf="hoverAction" class="absolute inset-0 pointer-events-none opacity-50">
+        <app-tulip-diagram [type]="type" [action]="hoverAction" [showArrow]="true" [size]="size"></app-tulip-diagram>
+    </div>
+
+    <!-- Interaction Layer -->
+    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path *ngFor="let zone of zones" [attr.d]="zone.path" fill="transparent" stroke="none"
+            class="hover:fill-green-500/20 transition-colors" (mouseenter)="setHoverAction(zone.action)"
+            (mouseleave)="setHoverAction(null)" (click)="selectAction(zone.action)" />
+    </svg>
+
+    <div class="absolute bottom-2 left-0 right-0 text-center text-sm text-gray-500 pointer-events-none">
+        Klik op de weg die je in wilt slaan
+    </div>
+</div>

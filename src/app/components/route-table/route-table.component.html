@@ -1,0 +1,14 @@
+<div class="w-full max-w-4xl mx-auto mt-8 print:w-full print:mt-0" *ngIf="steps && steps.length > 0">
+    <div class="grid grid-cols-3 gap-0 border-t border-l border-black">
+        <div *ngFor="let step of steps; let idx = index"
+            class="relative border-b border-r border-black p-4 flex items-center justify-center aspect-square break-inside-avoid">
+            <!-- Number Badge -->
+            <div
+                class="absolute top-2 left-2 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg print:bg-black print:text-white">
+                {{ idx + 1 }}
+            </div>
+
+            <app-tulip-diagram [type]="step.type" [action]="step.action" [size]="160"></app-tulip-diagram>
+        </div>
+    </div>
+</div>
