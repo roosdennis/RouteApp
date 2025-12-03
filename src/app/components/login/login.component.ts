@@ -40,4 +40,8 @@ export class LoginComponent {
             }
         });
     }
+
+    onRegister() {
+        alert('Registratie functionaliteit komt binnenkort!');
+    }
 }

@@ -29,6 +29,20 @@
                 <lucide-icon [img]="LogIn" class="w-5 h-5"></lucide-icon>
                 {{ isLoading ? 'Bezig met inloggen...' : 'Inloggen' }}
             </button>
+
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-white text-gray-500">Of</span>
+                </div>
+            </div>
+
+            <button type="button" (click)="onRegister()"
+                class="w-full flex items-center justify-center gap-2 bg-white text-gray-700 border-2 border-gray-200 py-3 rounded-lg font-semibold hover:bg-gray-50 hover:border-gray-300 transition">
+                Registreren
+            </button>
         </form>
     </div>
 </div>
