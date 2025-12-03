@@ -1,0 +1,46 @@
+<div class="w-full mx-auto bg-white print:max-w-none print:w-full print:h-screen flex flex-col items-center justify-center"
+    *ngIf="steps && steps.length > 0">
+    <svg width="100%" height="100%" [attr.viewBox]="viewBox" preserveAspectRatio="xMidYMid meet"
+        class="border border-gray-200 rounded-lg bg-white print:border-0">
+        <!-- Grid / Crosshair -->
+        <line x1="0" [attr.y1]="minY" x2="0" [attr.y2]="maxY" stroke="#f0f0f0" stroke-width="1" />
+        <line [attr.x1]="minX" y1="0" [attr.x2]="maxX" y2="0" stroke="#f0f0f0" stroke-width="1" />
+
+        <!-- North Arrow -->
+        <g>
+            <line x1="-5" y1="0" x2="0" y2="-60" stroke="black" stroke-width="2" />
+            <line x1="5" y1="0" x2="0" y2="-60" stroke="black" stroke-width="2" />
+            <path d="M 0 -60 L -5 -50 L 5 -50 Z" fill="black" />
+            <text x="0" y="-70" text-anchor="middle" font-size="14" font-weight="bold">N</text>
+        </g>
+
+        <!-- Scale Text -->
+        <text *ngIf="scale" [attr.x]="maxX - 10" [attr.y]="maxY - 10" text-anchor="end" font-size="16"
+            font-weight="bold" fill="black">
+            Schaal: 1cm = {{ scale }}m
+        </text>
+
+        <!-- Central Hub -->
+        <circle cx="0" cy="0" r="6" fill="black" />
+
+        <!-- Route Vectors -->
+        <g *ngFor="let point of coords; let idx = index">
+            <!-- Main Line -->
+            <line x1="0" y1="0" [attr.x2]="point.x" [attr.y2]="point.y" stroke="black" stroke-width="2" />
+
+            <!-- Arrowhead -->
+            <polyline [attr.points]="getArrowPoints(point.x, point.y, point.angleRad)" fill="none" stroke="black"
+                stroke-width="2" />
+
+            <!-- Number -->
+            <circle [attr.cx]="getTextPos(point.x, point.y, point.angleRad).x"
+                [attr.cy]="getTextPos(point.x, point.y, point.angleRad).y" r="10" fill="white" stroke="black"
+                stroke-width="1" />
+            <text [attr.x]="getTextPos(point.x, point.y, point.angleRad).x"
+                [attr.y]="getTextPos(point.x, point.y, point.angleRad).y" dy="4" text-anchor="middle" font-size="12"
+                font-weight="bold">
+                {{ idx + 1 }}
+            </text>
+        </g>
+    </svg>
+</div>

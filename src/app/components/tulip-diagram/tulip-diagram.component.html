@@ -1,0 +1,13 @@
+<svg [attr.width]="size" [attr.height]="size" viewBox="0 0 100 100" class="bg-white">
+    <g [attr.stroke]="roadBorder" stroke-width="2" [attr.fill]="roadColor">
+        <path *ngFor="let d of roads" [attr.d]="d" />
+        <circle [attr.cx]="cx" [attr.cy]="cy" [attr.r]="roadWidth / 2" stroke="none" [attr.fill]="roadColor" />
+    </g>
+
+    <g *ngIf="showArrow" fill="none" [attr.stroke]="arrowColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle [attr.cx]="startX" [attr.cy]="startY" r="3" [attr.fill]="arrowColor" stroke="none" />
+        <path [attr.d]="arrowPath" />
+        <polygon [attr.points]="arrowHeadPoints" [attr.fill]="arrowColor" stroke="none" />
+    </g>
+</svg>

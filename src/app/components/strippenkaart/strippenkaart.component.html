@@ -1,0 +1,37 @@
+<div class="w-full max-w-md mx-auto bg-white print:max-w-none print:w-auto" *ngIf="steps && steps.length > 0">
+    <svg width="300" [attr.height]="totalHeight" [attr.viewBox]="'0 0 300 ' + totalHeight" class="mx-auto">
+        <!-- Main Vertical Line -->
+        <line [attr.x1]="centerX" [attr.y1]="totalHeight - 50" [attr.x2]="centerX" y2="50" stroke="black"
+            [attr.stroke-width]="lineWidth" stroke-linecap="round" />
+
+        <!-- Start Dot -->
+        <circle [attr.cx]="centerX" [attr.cy]="totalHeight - 50" [attr.r]="dotRadius" fill="black" />
+
+        <!-- End Bar -->
+        <line [attr.x1]="centerX - 20" y1="50" [attr.x2]="centerX + 20" y2="50" stroke="black"
+            [attr.stroke-width]="lineWidth * 1.5" />
+        <text [attr.x]="centerX" y="30" text-anchor="middle" font-size="16" font-weight="bold">EIND</text>
+        <text [attr.x]="centerX" [attr.y]="totalHeight - 20" text-anchor="middle" font-size="16"
+            font-weight="bold">START</text>
+
+        <!-- Steps -->
+        <g *ngFor="let step of steps; let idx = index">
+            <!-- Number -->
+            <text [attr.x]="centerX + 50" [attr.y]="getStepY(idx) + 5" font-size="12" fill="gray">#{{ idx + 1 }}</text>
+
+            <!-- Left Strips -->
+            <ng-container *ngIf="getStrips(step).left > 0">
+                <line *ngFor="let line of getFanLines(centerX, getStepY(idx), getStrips(step).left, -1)"
+                    [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" stroke="black"
+                    [attr.stroke-width]="stripWidth" stroke-linecap="round" />
+            </ng-container>
+
+            <!-- Right Strips -->
+            <ng-container *ngIf="getStrips(step).right > 0">
+                <line *ngFor="let line of getFanLines(centerX, getStepY(idx), getStrips(step).right, 1)"
+                    [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" stroke="black"
+                    [attr.stroke-width]="stripWidth" stroke-linecap="round" />
+            </ng-container>
+        </g>
+    </svg>
+</div>

@@ -1,0 +1,15 @@
+<div class="w-full max-w-5xl mx-auto" *ngIf="steps && steps.length > 0">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-8 print:grid-cols-3 print:gap-8">
+        <div *ngFor="let step of steps; let index = index"
+            class="flex flex-col items-center p-6 border-2 border-gray-200 rounded-xl bg-white shadow-sm print:border-gray-300 print:shadow-none break-inside-avoid">
+            <div
+                class="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-lg mb-4">
+                {{ index + 1 }}
+            </div>
+
+            <div class="mb-4 transform scale-125">
+                <app-ogen-face [direction]="step.direction" [theme]="theme" [size]="120"></app-ogen-face>
+            </div>
+        </div>
+    </div>
+</div>
