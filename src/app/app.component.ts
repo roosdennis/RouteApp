@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Map, Printer, Home, LogIn, User } from 'lucide-angular';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
@@ -30,7 +30,7 @@ import { RouteType, AnyRouteStep } from './models/route.model';
     ],
     templateUrl: './app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     view: 'landing' | 'builder' | 'login' | 'admin' = 'login';
     routeType: RouteType = 'tulip';
     steps: AnyRouteStep[] = [];
@@ -45,6 +45,14 @@ export class AppComponent {
     readonly User = User; // Need to import User icon
 
     constructor(public authService: AuthService) { }
+
+    ngOnInit() {
+        this.authService.currentUser$.subscribe(user => {
+            if (!user) {
+                this.view = 'login';
+            }
+        });
+    }
 
     handleStart(type: string) {
         this.routeType = type as RouteType;
@@ -61,6 +69,16 @@ export class AppComponent {
     }
 
     setView(view: 'landing' | 'builder' | 'login' | 'admin') {
+        if (view !== 'login' && !this.authService.isLoggedIn()) {
+            this.view = 'login';
+            return;
+        }
+
+        if (view === 'admin' && !this.authService.isAdmin()) {
+            this.view = 'landing';
+            return;
+        }
+
         this.view = view;
     }
 
