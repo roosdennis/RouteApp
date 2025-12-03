@@ -31,7 +31,7 @@ import { RouteType, AnyRouteStep } from './models/route.model';
     templateUrl: './app.component.html',
 })
 export class AppComponent {
-    view: 'landing' | 'builder' | 'login' | 'admin' = 'landing';
+    view: 'landing' | 'builder' | 'login' | 'admin' = 'login';
     routeType: RouteType = 'tulip';
     steps: AnyRouteStep[] = [];
     heliScale: number = 100;
@@ -50,6 +50,14 @@ export class AppComponent {
         this.routeType = type as RouteType;
         this.view = 'builder';
         this.steps = [];
+    }
+
+    handleLoginSuccess() {
+        if (this.authService.isAdmin()) {
+            this.view = 'admin';
+        } else {
+            this.view = 'landing';
+        }
     }
 
     setView(view: 'landing' | 'builder' | 'login' | 'admin') {
