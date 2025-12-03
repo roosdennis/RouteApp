@@ -8,6 +8,8 @@ import { StrippenkaartComponent } from './components/strippenkaart/strippenkaart
 import { HelicopterRouteComponent } from './components/helicopter-route/helicopter-route.component';
 import { OgenRouteComponent } from './components/ogen-route/ogen-route.component';
 
+import { RouteType, AnyRouteStep } from './models/route.model';
+
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -25,8 +27,8 @@ import { OgenRouteComponent } from './components/ogen-route/ogen-route.component
 })
 export class AppComponent {
     view: 'landing' | 'builder' = 'landing';
-    routeType: string = 'tulip';
-    steps: any[] = [];
+    routeType: RouteType = 'tulip';
+    steps: AnyRouteStep[] = [];
     heliScale: number = 100;
     ogenTheme: string = 'smiley';
 
@@ -36,7 +38,7 @@ export class AppComponent {
     readonly Home = Home;
 
     handleStart(type: string) {
-        this.routeType = type;
+        this.routeType = type as RouteType;
         this.view = 'builder';
         this.steps = [];
     }
