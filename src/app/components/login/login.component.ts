@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LucideAngularModule, LogIn, Map, User, Lock } from 'lucide-angular';
 
@@ -23,7 +24,11 @@ export class LoginComponent {
     readonly User = User;
     readonly Lock = Lock;
 
-    constructor(private authService: AuthService) { }
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private route: ActivatedRoute
+    ) { }
 
     onSubmit() {
         if (!this.username || !this.password) return;
@@ -35,6 +40,9 @@ export class LoginComponent {
             next: () => {
                 this.isLoading = false;
                 this.loginSuccess.emit();
+                // Navigate to return url or home
+                const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+                this.router.navigateByUrl(returnUrl);
             },
             error: (err) => {
                 this.isLoading = false;
