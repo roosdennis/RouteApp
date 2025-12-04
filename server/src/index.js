@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 
@@ -21,6 +22,7 @@ const userRoutes = require('./routes/user');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/hikes', require('./routes/hike.routes'));
 
 // Basic health check
 app.get('/api/health', (req, res) => {
