@@ -15,4 +15,26 @@ model User {
   username String @unique
   password String
   role     String @default("user") // "admin" or "user"
+  hikes    Hike[]
+}
+
+model Hike {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  routes      Route[]
+}
+
+model Route {
+  id        Int      @id @default(autoincrement())
+  name      String
+  type      String   // bijv. 'tulip', 'strip', 'helicopter'
+  order     Int      // Volgorde in de hike
+  data      String   // De stappen als JSON
+  hikeId    Int
+  hike      Hike     @relation(fields: [hikeId], references: [id], onDelete: Cascade)
 }
